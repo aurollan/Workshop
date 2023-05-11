@@ -3,11 +3,9 @@
 The main purpose of the tools introduced here is to ease the development
 process for the developper.
 
-## Is it usefull for me ?
+## Is it usefull ?
 
-Of course we don't NEED it because we can do everything without those tools.
-
-And it will be useless for you if you can do the following...
+It will be useless for people who can do the following...
 
 - Read code
 - Format code
@@ -17,42 +15,34 @@ And it will be useless for you if you can do the following...
 
 ...at the speed of 10 000 line of code per second.
 
-=> You can do this ? You certainly don't need those tools.
-=> You can't ? Good, cause we don't have to spend time on what a tools can
-   easily do for us.
+If you can do this you certainly don't need those tools.
+if you can't, that's a good news, cause we don't have to spend time on what a
+tools can easily do for us.
 
-It is better to spend time on what tools CAN'T do and we have an added value.
-
-I see you coming: "Yeah but I am confortable with the tool I already use,
-I don't need new tools!
-OK, why not, as I said, you can do everything on your own.
-But software engineering is a fast moving field.
-If you don't keep pace you are making your skills outdated or, in our case,
-less productive, as the time pass by.
-
+It is better to spend time on what tools CAN'T do and the developer has an
+added value.
 
 ## Free and for everyone
 
 - Works with make/cmake
 - Works with every C/C++ projects
+- Works with cross-compilation
 - No cost, you can use them on your personnal setup
 
 ## Work as you type (or save, or push)
 
-No one want to run a script manually, and, fortunatly, we won't ask you to do
-it. Good news:
+No one want to run a script manually, and, fortunatly, nobody will have to do
+it.
 
 - Works in real time
 - Unrelated to any IDE (You should still use Vim/Neovim)
 - CI (or pre-commit) intergration with reports
 
-# Tools
-
 ## Compilation database
 
 Every C/C++ project has a different organisation, use a different build system
 and is compiled for specific targets.
-It implies that C/C++ projets are hard to parse and understood for any tools.
+It implies that C/C++ projets are hard to parse and understand for any tools.
 
 What if we have a standardized way to describe a project with all appropriate
 information ?
@@ -62,13 +52,11 @@ format is the `compilation_database.json`.
 
 It is as simple as it could be: A list of files with all appropriate definitions
 and path to find informations to compile.
-It is litteraly the command you pass to compile your files but structured in a
+It is litteraly the command passed to compile any files but structured in a
 specific format.
 
 This compilation database can then be used as input to every tool so they can
 parse code and find any information needed to understand it.
-
-But how may I create this file ?
 
 ### Cmake
 
@@ -84,7 +72,7 @@ If you use Make build system, it does not ouput a `compilation_commands.json` at
 the end of the build. You have to use another tool called `bear`.
 
 Download bear `sudo apt install bear`
-Then run you makefile rule starting with `bear` like this `bear make ...`.
+Then run you makefile rule starting with `bear` like this `bear -- make ...`.
 Make sure you build the full project, clean your project before if necessary.
 When the build is complete, `bear` will output the project
 `compilation_commands.json`.
@@ -93,13 +81,11 @@ It is a simple tool that EAR the compilation commands to Build your project.
 
 ## LSP
 
-LSP means Language Server Protocol. Not very explicit.
-It is just a standardize way to communicate between a client and a server.
-OK but then ?
+LSP means Language Server Protocol.
+It is a standardize way to communicate between a client and a server.
 It's used by an editor (client) and a language specific lsp server to
 communicate information about code in real time.
-For what ?
-To provide weel known feature like:
+It enables some nice features like:
 https://clangd.llvm.org/features
 
 And the best part is that it is not related to any IDE.
@@ -109,14 +95,13 @@ It is:
 - Open source
 - Available for every languages
 
-You can get the same feature with your favorite IDE, you don't have to use
-something like... vscode. You are free!
+You can get the same feature with V... any IDE.
 
 
 ### The right LSP server
 
 There is certainly a LSP server for any language, and there is multiple LSP
-server for C/C++ projects like ccls and clangd.
+server for C/C++ projects like `ccls` and `clangd`.
 
 They both works the same way but we will use `clangd` for our example.
 
@@ -127,19 +112,19 @@ sometimes, more stability.
 
 ### The LSP client
 
-You IDE, like any IDE, must implement a LSP client to communicate with the
-server (ofc). The majority of IDE have this feature so don't worry about this.
-But, you could find a wide variety of plugin of different quality to be the
-client. You experience with LSP will mostly depend on the quality of the plugin
-used. Fortunatly most of IDE provide plugins of good quality to handle this
-feature.
+The IDE must implement a LSP client to communicate with the server (ofc). The
+majority of IDE have this feature.
+But, there is a wide variety of plugin of different quality. User experience
+with LSP will mostly depend on the selected plugin.
+Fortunatly most of IDE provide plugins of good quality to handle this part.
 
-But how you plugin will understand your project ?
+But how the tool  will understand the project ?
 
 This is where the `compile_commands.json` take place.
-The plugin will, most likely, find this file at the root of your project and
-parse it. Then it will provide you with all features we saw earlier thank to a
-perfect understanding/parsing of your project.
+The plugin will, most likely, find this file at the root of the project and
+parse it. Then it will provide the user with all features we saw earlier thank
+to a perfect understanding/parsing/compilation of your project by the LSP
+server.
 
 ### How the LSP server can do this ?
 
@@ -153,9 +138,9 @@ Quoted from https://clang.llvm.org/
     for languages in the C language family...
 
 ### Configuration
-Assuming you HAVE a `compile_commands.json` in the root of your project AND
-`clangd` installed. You just have to install the right plugin to act as a Lsp
-client. Note that configuration is set using those plugins. Each plugin use its
+Assuming there IS a `compile_commands.json` in the root of the project AND
+`clangd` installed. The right plugin is installed to act as a Lsp client. Note
+that configuration is set using those plugins. Each plugin use its
 own way to pass configuration to Lsp server. Choose a plugin you are
 confortable with.
 
@@ -178,7 +163,7 @@ If you don't just enter `:LspInstall clangd`. It is the same for any LSP server.
 
 #### Vscode
 Vscode usually work out of the box.
-If you miss some feature, it is usually because you don't have a proper
+If there is some feature missing, it is usually because there is no proper
 compilation database and Vscode plugins have a partial understanding of your
 project.
 
@@ -205,10 +190,11 @@ formatted file.
 `sudo apt install clang-format`
 
 #### Why
+
 Because sharing a same way to write code is a good way to make it easily
 readable and maintainable by any member of the team. It look like the code has
 been written by the same person. It could be annoying at first if it is not
-"our way to do it" but once we get used to it, everyone benefit from it.
+"our way to do it" but once we get used to it, everyone benefits from it.
 It is also spending 0 time to learn the code style for new comer and wasting no
 time to try format it by yourself, looking for every space and line.
 It save time for your reviewer who don't have to check it, and it saves time for
@@ -218,8 +204,8 @@ To put it simple: it saves A LOT of time to developper on one a the most
 annoying quality check to do.
 
 #### How to configure it ?
-You just have to create a small `.clang-format` file at the root of your
-project. In this file you will put the you own configuration. `clang-format`
+Create a small `.clang-format` file at the root of the
+project. Put the configuration in this file. `clang-format`
 will read it and format file accordingly.
 
 An easy way to create a clang-format configuration file:
@@ -231,7 +217,7 @@ can benefit from it in real time.
 
 #### Configuration
 
-Assuming you HAVE a `.clang-format` file in the root of your project AND it
+Assuming there IS a `.clang-format` file in the root of the project AND it
 contains configuration options.
 
 #### Vim/Neovim
@@ -270,6 +256,7 @@ adding `--clang-tidy` to the command line.
 It can easily take a compilation database to analyze a whole project easily.
 
 #### Why
+
 Linter tools will try to enforce best coding practice in the code. Those tools
 parse the code and provide usefull advices to improve code quality and
 readability. Usually linters will work to:
@@ -285,9 +272,9 @@ Same as formatting, those mistakes are annoying to track and fix and can delay
 the review steps while a tool could have warn and prevent it before any review.
 
 #### How to configure it ?
-You just have to create a small `.clang-tidy` file at the root of your
-project. In this file you will put the you own configuration. `clang-tidy` will
-read it and lint the file accordingly.
+Create a small `.clang-tidy` file at the root of the
+project. Put the configuration In this file. `clang-tidy` will
+read it and lint the code accordingly.
 
 An easy way to create a clang-tidy configuration:
 
@@ -296,8 +283,8 @@ An easy way to create a clang-tidy configuration:
 
 #### Configuration
 
-Assuming you HAVE a `.clang-tidy` file in the root of your project AND a
-`compilation_commands.json` at the root of your project.
+Assuming there IS a `.clang-tidy` file in the root of the project AND a
+`compilation_commands.json` at the root of the project.
 
 #### Vim/Neovim
 Because I am totally partial, we will start with Vim in the first place.
@@ -310,7 +297,7 @@ If you already installed `clangd-tidy` it should work out of the box.
 
 #### Vscode
 In Vscode it work out of the box.
-But maybe you will have to toggle the feature in the intellisense plugin
+But maybe there is a toggle the feature in the intellisense plugin
 configuration interface.
 
 #### SublimText
@@ -333,13 +320,14 @@ First of all, there is a lot of tool to statically analyze code. But we will
 focus on one simple tool: `cppcheck`.
 It is a command line interface tools that take file in input and output a
 formatted file.
-`sudo apt install cppcheck`
+
+    `sudo apt install cppcheck`
 
 It can easily take a compilation database to analyze a whole project easily.
 
 #### Why
 
-Linter tools will try to analyze your code flow without running it (that's the
+Linter tools will try to analyze the code flow without running it (that's the
 `static` part). Those tools parse the code and provide usefull advices to
 find runtime error. Usually static analyzer will work to:
 - Avoid runtime errors
@@ -350,7 +338,7 @@ find runtime error. Usually static analyzer will work to:
 
 #### Limits
 
-Evenn if those tools are really powerfull, there do not garanty that the code is
+Even if those tools are really powerfull, there do not garanty that the code is
  flawless.
  There is 2 major point to keep in mind when using static analyzer:
     - They could bring false positif.
@@ -362,7 +350,7 @@ false positives.
 #### How to configure it ?
 
 Use the CLI without configuration file.
-Of course the best part is that you don't have to use the CLI each time and you
+Of course the best part is that we don't have to use the CLI each time and we
 can benefit from it in real time.
 
 #### Configuration
